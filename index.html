@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mini-Duolingo</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #0f172a;
+      color: #e5e7eb;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 40px 16px;
+    }
+
+    .app {
+      background: #020617;
+      border-radius: 18px;
+      padding: 24px 20px 28px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: radial-gradient(circle at 30% 20%, #4ade80, #16a34a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #022c22;
+      font-weight: 900;
+      font-size: 20px;
+      box-shadow: 0 0 0 2px rgba(34,197,94,0.4);
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .logo-text span:first-child {
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .logo-text span:last-child {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    .stats {
+      display: flex;
+      gap: 10px;
+      font-size: 11px;
+    }
+
+    .pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.4);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .pill span.value {
+      font-weight: 700;
+      color: #facc15;
+    }
+
+    .pill span.label {
+      color: #9ca3af;
+    }
+
+    .xp-bar {
+      margin-bottom: 18px;
+    }
+
+    .xp-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      margin-bottom: 4px;
+      color: #9ca3af;
+    }
+
+    .xp-label-row strong {
+      color: #e5e7eb;
+      font-size: 12px;
+    }
+
+    .xp-track {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: #020617;
+      border: 1px solid rgba(30,64,175,0.8);
+      overflow: hidden;
+      box-shadow: inset 0 0 8px rgba(15,23,42,0.9);
+    }
+
+    .xp-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #22c55e, #a3e635, #facc15);
+      box-shadow: 0 0 12px rgba(250,204,21,0.7);
+      transition: width 0.25s ease-out;
+    }
+
+    .mode-box {
+      background: rgba(15,23,42,0.9);
+      border-radius: 14px;
+      padding: 12px 12px 10px;
+      border: 1px solid rgba(148,163,184,0.35);
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mode-title {
+      font-size: 12px;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .mode-main {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .mode-main input {
+      flex: 1;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .mode-main input::placeholder {
+      color: #6b7280;
+    }
+
+    .mode-main button {
+      border-radius: 999px;
+      border: none;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #022c22;
+      box-shadow: 0 10px 18px rgba(22,163,74,0.45);
+      transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
+      white-space: nowrap;
+    }
+
+    .mode-main button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 24px rgba(22,163,74,0.6);
+    }
+
+    .mode-main button:active {
+      transform: translateY(0);
+      box-shadow: 0 8px 14px rgba(22,163,74,0.5);
+    }
+
+    .mode-note {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.18), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(52,211,153,0.18), transparent 55%),
+                  #020617;
+      border-radius: 16px;
+      padding: 16px 14px 14px;
+      border: 1px solid rgba(148,163,184,0.4);
+      margin-bottom: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 10% 0%, rgba(250,250,250,0.08), transparent 55%);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .card-subtitle {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    .badge {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(129,140,248,0.8);
+      color: #a5b4fc;
+    }
+
+    .question {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 10px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .question-meta {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    .answers {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .answer-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: rgba(15,23,42,0.9);
+      color: #e5e7eb;
+      padding: 8px 10px;
+      font-size: 13px;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s ease-out, border-color 0.15s ease-out, transform 0.08s ease-out;
+    }
+
+    .answer-btn:hover {
+      background: rgba(30,64,175,0.5);
+      border-color: rgba(129,140,248,0.9);
+      transform: translateY(-1px);
+    }
+
+    .answer-btn.correct {
+      background: rgba(22,163,74,0.18);
+      border-color: #22c55e;
+      color: #bbf7d0;
+    }
+
+    .answer-btn.wrong {
+      background: rgba(220,38,38,0.18);
+      border-color: #f97373;
+      color: #fecaca;
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 6px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .streak {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .streak-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #f97316, #ea580c);
+      box-shadow: 0 0 10px rgba(249,115,22,0.8);
+    }
+
+    .next-btn {
+      border-radius: 999px;
+      border: none;
+      padding: 6px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      background: rgba(15,23,42,0.9);
+      color: #e5e7eb;
+      border: 1px solid rgba(148,163,184,0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .next-btn:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+
+    .status {
+      font-size: 12px;
+      margin-top: 4px;
+      min-height: 16px;
+    }
+
+    .status.ok {
+      color: #bbf7d0;
+    }
+
+    .status.bad {
+      color: #fecaca;
+    }
+
+    .status.neutral {
+      color: #9ca3af;
+    }
+
+    @media (max-width: 480px) {
+      .answers {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="header">
+      <div class="logo">
+        <div class="logo-icon">L</div>
+        <div class="logo-text">
+          <span>Lingoplay</span>
+          <span>Träna vad du vill, som ett spel</span>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="pill">
+          <span class="label">Level</span>
+          <span class="value" id="level">1</span>
+        </div>
+        <div class="pill">
+          <span class="label">XP</span>
+          <span class="value" id="xp">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="xp-bar">
+      <div class="xp-label-row">
+        <span>Mot nästa level</span>
+        <span><strong id="xpCurrent">0</strong>/<span id="xpNeeded">50</span> XP</span>
+      </div>
+      <div class="xp-track">
+        <div class="xp-fill" id="xpFill"></div>
+      </div>
+    </div>
+
+    <div class="mode-box">
+      <div class="mode-title">Vad vill du träna på?</div>
+      <div class="mode-main">
+        <input id="topicInput" type="text" placeholder="t.ex. engelska glosor, matte, huvudstäder..." />
+        <button id="topicBtn">Sätt fokus</button>
+      </div>
+      <div class="mode-note" id="topicNote">
+        Skriv ett område du vill träna, så anpassas känslan i frågorna.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title" id="topicTitle">Allmän träning</div>
+          <div class="card-subtitle" id="cardSubtitle">Snabbövning – svara rätt för att få XP</div>
+        </div>
+        <div class="badge" id="badgeText">Ny session</div>
+      </div>
+
+      <div class="question">
+        <div class="question-text" id="questionText">Vilket ord betyder samma som “happy”?</div>
+        <div class="question-meta">
+          Fråga <span id="questionIndex">1</span>/<span id="questionTotal">4</span>
+        </div>
+      </div>
+
+      <div class="answers" id="answersContainer">
+        <!-- Knappalternativ skapas via JavaScript -->
+      </div>
+
+      <div class="footer-row">
+        <div class="streak">
+          <div class="streak-dot"></div>
+          <span id="streakText">Streak: 0</span>
+        </div>
+        <button class="next-btn" id="nextBtn" disabled>Nästa fråga</button>
+      </div>
+
+      <div class="status neutral" id="statusText"></div>
+    </div>
+  </div>
+
+  <script>
+    // En enkel "databas" med frågor.
+    // Du kan byta ut detta mot egna frågor.
+    const baseQuestions = [
+      {
+        topicHint: "engelska glosor",
+        question: "Vilket ord betyder samma som “happy”?",
+        answers: ["sad", "angry", "glad", "tired"],
+        correctIndex: 2
+      },
+      {
+        topicHint: "engelska glosor",
+        question: "Vad betyder “dog” på svenska?",
+        answers: ["katt", "hund", "fågel", "ko"],
+        correctIndex: 1
+      },
+      {
+        topicHint: "huvudstäder",
+        question: "Vilken är huvudstaden i Frankrike?",
+        answers: ["Berlin", "Madrid", "Paris", "Rom"],
+        correctIndex: 2
+      },
+      {
+        topicHint: "huvudstäder",
+        question: "Vilken är huvudstaden i Sverige?",
+        answers: ["Göteborg", "Malmö", "Uppsala", "Stockholm"],
+        correctIndex: 3
+      },
+      {
+        topicHint: "matte",
+        question: "Vad är 7 + 5?",
+        answers: ["10", "11", "12", "13"],
+        correctIndex: 2
+      },
+      {
+        topicHint: "matte",
+        question: "Vad är 9 × 3?",
+        answers: ["27", "21", "18", "24"],
+        correctIndex: 0
+      }
+    ];
+
+    let currentTopic = "Allmän träning";
+    let filteredQuestions = [...baseQuestions];
+    let currentIndex = 0;
+    let xp = 0;
+    let level = 1;
+    let streak = 0;
+    let answered = false;
+
+    const xpPerCorrect = 10;
+
+    const levelEl = document.getElementById("level");
+    const xpEl = document.getElementById("xp");
+    const xpFillEl = document.getElementById("xpFill");
+    const xpCurrentEl = document.getElementById("xpCurrent");
+    const xpNeededEl = document.getElementById("xpNeeded");
+    const topicInputEl = document.getElementById("topicInput");
+    const topicBtnEl = document.getElementById("topicBtn");
+    const topicNoteEl = document.getElementById("topicNote");
+    const topicTitleEl = document.getElementById("topicTitle");
+    const cardSubtitleEl = document.getElementById("cardSubtitle");
+    const badgeTextEl = document.getElementById("badgeText");
+    const questionTextEl = document.getElementById("questionText");
+    const questionIndexEl = document.getElementById("questionIndex");
+    const questionTotalEl = document.getElementById("questionTotal");
+    const answersContainerEl = document.getElementById("answersContainer");
+    const streakTextEl = document.getElementById("streakText");
+    const nextBtnEl = document.getElementById("nextBtn");
+    const statusTextEl = document.getElementById("statusText");
+
+    function xpNeededForLevel(lvl) {
+      // Enkel kurva: 50, 80, 110, ...
+      return 50 + (lvl - 1) * 30;
+    }
+
+    function updateXPUI() {
+      const needed = xpNeededForLevel(level);
+      const currentInLevel = xp % needed;
+      const percent = Math.min(100, (currentInLevel / needed) * 100);
+
+      xpEl.textContent = xp;
+      levelEl.textContent = level;
+      xpCurrentEl.textContent = currentInLevel;
+      xpNeededEl.textContent = needed;
+      xpFillEl.style.width = percent + "%";
+    }
+
+    function gainXP(amount) {
+      xp += amount;
+      let leveledUp = false;
+
+      while (xp >= xpNeededForLevel(level)) {
+        xp -= xpNeededForLevel(level);
+        level++;
+        leveledUp = true;
+      }
+
+      updateXPUI();
+
+      if (leveledUp) {
+        statusTextEl.textContent = "Level up! Du är nu level " + level + " 🎉";
+        statusTextEl.className = "status ok";
+      }
+    }
+
+    function setTopic(topic) {
+      currentTopic = topic.trim() || "Allmän träning";
+      topicTitleEl.textContent = currentTopic;
+
+      // Filtrera frågor som matchar topicHint lite löst
+      const lower = currentTopic.toLowerCase();
+      const matches = baseQuestions.filter(q =>
+        q.topicHint.toLowerCase().includes(lower)
+      );
+
+      filteredQuestions = matches.length > 0 ? matches : baseQuestions;
+      currentIndex = 0;
+
+      questionTotalEl.textContent = filteredQuestions.length.toString();
+      badgeTextEl.textContent = matches.length > 0 ? "Fokuserad träning" : "Mixade frågor";
+      cardSubtitleEl.textContent = matches.length > 0
+        ? "Frågor anpassade till: " + currentTopic
+        : "Hittade inget exakt – visar blandade frågor";
+
+      topicNoteEl.textContent = "Aktivt fokus: " + currentTopic;
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const q = filteredQuestions[currentIndex];
+      questionTextEl.textContent = q.question;
+      questionIndexEl.textContent = (currentIndex + 1).toString();
+      questionTotalEl.textContent = filteredQuestions.length.toString();
+
+      answersContainerEl.innerHTML = "";
+      q.answers.forEach((ans, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "answer-btn";
+        btn.textContent = ans;
+        btn.addEventListener("click", () => handleAnswer(idx));
+        answersContainerEl.appendChild(btn);
+      });
+
+      answered = false;
+      nextBtnEl.disabled = true;
+      statusTextEl.textContent = "";
+      statusTextEl.className = "status neutral";
+    }
+
+    function handleAnswer(index) {
+      if (answered) return;
+      answered = true;
+
+      const q = filteredQuestions[currentIndex];
+      const buttons = Array.from(
+        answersContainerEl.querySelectorAll(".answer-btn")
+      );
+
+      buttons.forEach((btn, idx) => {
+        btn.disabled = true;
+        if (idx === q.correctIndex) {
+          btn.classList.add("correct");
+        }
+        if (idx === index && idx !== q.correctIndex) {
+          btn.classList.add("wrong");
+        }
+      });
+
+      if (index === q.correctIndex) {
+        streak++;
+        streakTextEl.textContent = "Streak: " + streak;
+        statusTextEl.textContent = "+10 XP! Rätt svar 👏";
+        statusTextEl.className = "status ok";
+        gainXP(xpPerCorrect);
+      } else {
+        streak = 0;
+        streakTextEl.textContent = "Streak: " + streak;
+        statusTextEl.textContent = "Fel svar – försök igen på nästa!";
+        statusTextEl.className = "status bad";
+      }
+
+      nextBtnEl.disabled = false;
+    }
+
+    function nextQuestion() {
+      currentIndex++;
+      if (currentIndex >= filteredQuestions.length) {
+        currentIndex = 0;
+      }
+      loadQuestion();
+    }
+
+    topicBtnEl.addEventListener("click", () => {
+      setTopic(topicInputEl.value);
+    });
+
+    topicInputEl.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        setTopic(topicInputEl.value);
+      }
+    });
+
+    nextBtnEl.addEventListener("click", nextQuestion);
+
+    // Init
+    updateXPUI();
+    setTopic(currentTopic);
+  </script>
+</body>
+</html>
