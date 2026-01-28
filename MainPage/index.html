@@ -7,29 +7,34 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Hackthon</h1>
+    <main>
+        <h1>Hackathon</h1>
 
-    <h3>Vad vill du träna på?</h3>
-    <input id="topicInput" type="text" placeholder="t.ex. engelska glosor, matte, huvudstäder">
-    <button id="topicBtn">Sätt fokus</button>
-    <p id="topicText">Aktivt fokus: Allmän träning</p>
+        <h3>Vad vill du träna på?</h3>
+        <input id="topicInput" type="text" placeholder="t.ex. engelska glosor, matte, huvudstäder">
+        <button id="topicBtn">Sätt fokus</button>
+        <p id="topicText">Aktivt fokus: Allmän träning</p>
 
-    <hr>
 
-    <h3>Fråga <span id="questionIndex">1</span>/<span id="questionTotal">1</span></h3>
-    <p id="questionText">Vilket ord betyder samma som “happy”?</p>
+        <hr>
+        
+        <div class="stats">
+            <p>XP: <span id="xp">0/</span><span id="xpNext">65</span></p>
+            <p>Level: <span id="level">1</span></p>
+            <p>Streak: <span id="streak">0</span></p>
+        </div>
+        
+        <hr>
 
-    <div id="answersContainer">
-    </div>
+        <h3>Fråga <span id="questionIndex">1</span>/<span id="questionTotal">1</span></h3>
+        <p id="questionText">Vilket ord betyder samma som “happy”?</p>
 
-    <p id="statusText"></p>
+        <div id="answersContainer">
+        </div>
 
-    <p>
-        XP: <span id="xp">0</span> |
-        Level: <span id="level">1</span> |
-        Streak: <span id="streak">0</span>
-    </p>
+        <p id="statusText"></p>
 
-    <button id="nextBtn" disabled>Nästa fråga</button>  
+        <button id="nextBtn" disabled>Nästa fråga</button>  
+    </main>
 </body>
 </html>
