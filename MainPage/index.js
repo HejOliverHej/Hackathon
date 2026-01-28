@@ -7,5 +7,5 @@ if (chosenTopic) {
 
 const chosenTopicBtnEl = document.getElementById("changeTopicBtn")
 chosenTopicBtnEl.addEventListener("click", function(event) {
-    location.pathname = "/MainPage/UserPick"
+    location.pathname = "/MainPage/UserPick.html"
 })

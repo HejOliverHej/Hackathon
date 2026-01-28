@@ -10,53 +10,117 @@
 </head>
 
 <body>
+    <style>
+        body {
+            background-color: #060533;
+        }
+
+        h3,
+        h4 {
+            color: white;
+        }
+
+        .cardcolor {
+            background-color: #1d1c1c;
+            color: white;
+        }
+
+        .btncolor {
+            background-color: #1d1c1c;
+        }
+
+        button,
+        input,
+        select {
+            background-color: transparent;
+            width: fit-content;
+            min-width: 200px;
+            color: #fff;
+            outline: 5px solid transparent;
+            border: 1px solid #ffffff76;
+            border-radius: 5px;
+            padding: 5px 10px;
+            box-sizing: border-box;
+
+            transition: .15s ease-in-out, .1s transform;
+        }
+
+        button:hover,
+        input:hover {
+            background-color: #000;
+            border-color: #ffffffb1;
+        }
+
+        button:active,
+        input:focus-visible {
+            background-color: #000;
+            border-color: #fff;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        button:active {
+            transform: translateY(2px);
+        }
+
+        .card img {
+            height: 200px;
+
+        }
+    </style>
     <div class="container text-center">
         <div class="container text-center">
-            <h3>Vad vill du träna på?</h3>
-            <h4>Valt ämne: <span id="chosenTopic">Inget</span></h4>
+            <h3 class="mt-5">Vad vill du träna på?</h3>
+            <h4 class="mb-3">Valt ämne: <span id="chosenTopic">Inget</span></h4>
             <div class="row row-cols-4">
                 <div class="col">
-                    <div class="card" style="width: 18rem;">
-                        <img src="/img/mathematics.jpg" class="card-img-top" alt="bild av matetal på tavla">
+                    <div class="card cardcolor" style="width: 18rem;">
+                        <img draggable="false" src="/img/mathematics.jpg" class="card-img-top" alt="bild av matetal på tavla">
                         <div class="card-body">
                             <h5 class="card-title">Matte</h5>
-                            <p class="card-text">För er som behöver hjälp med matte eller behöver repitera för att komma ihåg det</p>
-                            <button class="btn btn-primary" data-topic="matte">Välj Ämne</button>
+                            <p class="card-text">För er som behöver hjälp med matte eller behöver repitera för att komma
+                                ihåg det</p>
+                            <button data-topic="matte">Välj Ämne</button>
                         </div>
                     </div>
                 </div>
                 <div class="col">
-                    <div class="card" style="width: 18rem;">
-                        <img src="/img/europe-map.webp" class="card-img-top" alt="en bild på en karta över europa">
+                    <div class="card cardcolor" style="width: 18rem;">
+                        <img draggable="false" src="/img/europe-map.webp" class="card-img-top" alt="en bild på en karta över europa">
                         <div class="card-body">
                             <h5 class="card-title">Geografi</h5>
-                            <p class="card-text">för er som behöver hjälp med länder och huvudstäder i form av repetasion</p>
-                            <button class="btn btn-primary" data-topic="geografi">Välj Ämne</button>
+                            <p class="card-text">för er som behöver hjälp med länder och huvudstäder i form av
+                                repetition</p>
+                            <button data-topic="geografi">Välj Ämne</button>
                         </div>
                     </div>
                 </div>
                 <div class="col">
-                    <div class="card" style="width: 18rem;">
-                        <img src="/img/granskog.jpg" class="card-img-top" alt="bild på en skog">
+                    <div class="card cardcolor" style="width: 18rem;">
+                        <img draggable="false" src="/img/granskog.jpg" class="card-img-top" alt="bild på en skog">
                         <div class="card-body">
                             <h5 class="card-title">Biologi</h5>
-                            <p class="card-text">För er som behöver hjälp med biologi och dens alla former och repetera på biologi</p>
-                            <button class="btn btn-primary" data-topic="biologi">Välj Ämne</button>
+                            <p class="card-text">För er som behöver hjälp med biologi och dens alla former och repetera
+                                på biologi</p>
+                            <button data-topic="biologi">Välj Ämne</button>
                         </div>
                     </div>
                 </div>
                 <div class="col">
-                    <div class="card" style="width: 18rem;">
-                        <img src="/img/swedish-flag.jpg" class="card-img-top" alt="en bild på den svenska flagan">
+                    <div class="card cardcolor" style="width: 18rem;">
+                        <img draggable="false" src="/img/swedish-flag.jpg" class="card-img-top" alt="en bild på den svenska flagan">
                         <div class="card-body">
                             <h5 class="card-title">Svenska</h5>
-                            <p class="card-text">För er som behöver hjälp med glosor samt frågor om saker inom svenskasom litratur epoker</p>
-                            <button class="btn btn-primary" data-topic="svenska">Välj Ämne</button>
+                            <p class="card-text">För er som behöver hjälp med glosor samt frågor om saker inom
+                                svenska som literatur epoker</p>
+                            <button data-topic="svenska">Välj Ämne</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <button class="btn btn-primary" id="goBackBtn">Gå Tillbaka</button>
+            <button class="mt-5" id="goBackBtn">Gå Tillbaka</button>
         </div>
     </div>
 
@@ -66,4 +130,5 @@
     <script src="UserPick.js"></script>
 </body>
 </div>
+
 </html>
