@@ -1,8 +1,5 @@
 * {
     font-family: Arial, Helvetica, sans-serif;
-}
-
-* {
     margin: 0;
     padding: 0;
 }
@@ -10,7 +7,7 @@
 body {
     background-color: #060533;
     width: 100vw;
-    height: 100vh;
+    height: 50vh;
 
     display: flex;
     justify-content: center;
@@ -18,8 +15,9 @@ body {
 
 main {
     margin-top: 5vh;
-    width: 50vw;
-    height: 75vh;
+    width: 75vw;
+    min-height: 55vh;
+    height: fit-content;
 
     padding: 25px;
     background-color: #1d1c1c;
@@ -27,7 +25,59 @@ main {
 
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
+
+    overflow: hidden;
+}
+
+button, input, select {
+    background-color: transparent;
+    width: fit-content;
+    min-width: 300px;
+    color: #fff;
+    outline: 5px solid transparent;
+    border: 1px solid #ffffff76;
+    border-radius: 5px;
+    padding: 5px 10px;
+    box-sizing: border-box;
+
+    transition: .15s ease-in-out, .1s transform;
+}
+button:hover, input:hover {
+    background-color: #000;
+    border-color: #ffffffb1;
+}
+button:active, input:focus-visible {
+    background-color: #000;
+    border-color: #fff;
+}
+
+button {
+    cursor: pointer;
+}
+button:active {
+    transform: translateY(2px);
+}
+
+.chooseTopic {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+.chooseTopic input {
+    width: 75%;
+    min-width: fit-content;
+}
+.chooseTopic button {
+    min-width: fit-content;
+    width: calc(25% - 5px);
+}
+
+#topicText {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #4d4040;
 }
 
 .stats {
@@ -42,4 +92,46 @@ main {
 }
 .stats p:last-child::after {
     content: ''
+}
+
+#answersContainer {
+    width: 100%;
+    height: fit-content;
+    
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 10px;
+}
+
+#answersContainer .answer {
+    width: calc(50% - 5px);
+    min-height: 50px;
+    height: fit-content;
+    padding: 5px;
+    box-sizing: border-box;
+    background-color: transparent;
+    border: 1px solid #ffffffb1;
+    border-radius: 2px;
+    transition: .15s ease-in-out, .1s transform;
+    font-size: 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+#answersContainer .answer:hover {
+    border-color: #fff;
+    background-color: #000;
+}
+#answersContainer .answer:active {
+    transform: translateY(2px);
+}
+
+#nextBtn {
+    width: 100%;
+    height: 40px;
 }

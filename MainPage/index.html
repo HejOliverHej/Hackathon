@@ -11,13 +11,23 @@
         <h1>Hackathon</h1>
 
         <h3>Vad vill du träna på?</h3>
-        <input id="topicInput" type="text" placeholder="t.ex. engelska glosor, matte, huvudstäder">
-        <button id="topicBtn">Sätt fokus</button>
-        <p id="topicText">Aktivt fokus: Allmän träning</p>
+        <div class="chooseTopic">
+            <!-- <input id="topicInput" type="" placeholder="t.ex. engelska glosor, matte, huvudstäder"> -->
+            <select name="topicInput" id="topicInput">
+                <option value="so">SO</option>
+                <option value="no">NO</option>
+                <option value="matte">Matte</option>
+                <option value="geografi">Geografi</option>
+            </select>
+            <button id="topicBtn">Sätt fokus</button>
+        </div>
+        <p>Aktivt fokus: <span id="topicText">Allmän träning</span></p>
 
+        <button>Hantera Övningar</button>
 
         <hr>
         
+        <h3>Stats</h3>
         <div class="stats">
             <p>XP: <span id="xp">0/</span><span id="xpNext">65</span></p>
             <p>Level: <span id="level">1</span></p>
@@ -30,6 +40,18 @@
         <p id="questionText">Vilket ord betyder samma som “happy”?</p>
 
         <div id="answersContainer">
+            <div class="answer">
+                Glad
+            </div>
+            <div class="answer">
+                Ledsen
+            </div>
+            <div class="answer">
+                Happy
+            </div>
+            <div class="answer">
+                Arg
+            </div>
         </div>
 
         <p id="statusText"></p>
