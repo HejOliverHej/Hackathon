@@ -33,7 +33,7 @@ main {
 button, input, select {
     background-color: transparent;
     width: fit-content;
-    min-width: 300px;
+    min-width: 200px;
     color: #fff;
     outline: 5px solid transparent;
     border: 1px solid #ffffff76;
@@ -64,17 +64,10 @@ button:active {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 5px;
-}
-.chooseTopic input {
-    width: 75%;
-    min-width: fit-content;
-}
-.chooseTopic button {
-    min-width: fit-content;
-    width: calc(25% - 5px);
+    align-items: center;
 }
 
-#topicText {
+#chosenTopic {
     padding: 5px 10px;
     border-radius: 5px;
     background-color: #4d4040;

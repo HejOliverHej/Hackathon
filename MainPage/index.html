@@ -12,16 +12,9 @@
 
         <h3>Vad vill du träna på?</h3>
         <div class="chooseTopic">
-            <!-- <input id="topicInput" type="" placeholder="t.ex. engelska glosor, matte, huvudstäder"> -->
-            <select name="topicInput" id="topicInput">
-                <option value="so">SO</option>
-                <option value="no">NO</option>
-                <option value="matte">Matte</option>
-                <option value="geografi">Geografi</option>
-            </select>
-            <button id="topicBtn">Sätt fokus</button>
+            <p>Valt Fokus: <span id="chosenTopic">Inget</span></p>
+            <button id="changeTopicBtn">Ändra fokus</button>
         </div>
-        <p>Aktivt fokus: <span id="topicText">Allmän träning</span></p>
 
         <button>Hantera Övningar</button>
 
@@ -58,5 +51,6 @@
 
         <button id="nextBtn" disabled>Nästa fråga</button>  
     </main>
+    <script src="index.js"></script>
 </body>
 </html>
