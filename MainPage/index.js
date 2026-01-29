@@ -23,7 +23,7 @@ const questionTextEl = document.getElementById("questionText")
 const questionIndexEl = document.getElementById("questionIndex")
 const questionTotalEl = document.getElementById("questionTotal")
 
-localStorage.clear()
+// localStorage.clear()
 
 let xpValue = localStorage.getItem("xp") || 0
 let levelValue = localStorage.getItem("level") || 1
