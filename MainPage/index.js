@@ -50,6 +50,7 @@ function levelUp(newXpValue) {
 }
 function addXp(amount) {
     let newXpValue = xpValue + amount;
+    console.log(newXpValue)
     if (newXpValue >= levels[levelValue]) {
         levelUp(newXpValue)
     } else {
@@ -121,6 +122,7 @@ function answerQuestion(rightAnswer = false, firstQuestion = false) {
                 divEl.classList.add("correct")
 
                 addXp(10.0);         
+                updateStatElements()
             } else {
                 console.log("Wrong answer")
                 streakValue = 0;
@@ -278,13 +280,28 @@ function loadModal() {
 
         const pEl = document.createElement("p")
         pEl.innerHTML = `${index + 1}: Fråga: "<span id="label">${question.label}</span>`
-        
+
+        const deleteBtnEl = document.createElement("button")
+        deleteBtnEl.textContent = "Ta Bort"
+        deleteBtnEl.addEventListener("click", function (event) {
+            currentTopicQuestions.splice(index, 1)
+
+            currentTopicQuestion = currentTopicQuestion - 1
+            loadModal()
+            modifyQuestions(chosenTopic, currentTopicQuestions)
+        })
+
+
         const divEl = document.createElement("div")
-        divEl.className = "question"
+        divEl.className = "top"
+        divEl.append(pEl, deleteBtnEl)
+        
+        const divEl2 = document.createElement("div")
+        divEl2.className = "question"
         const hrEl = document.createElement("hr")
 
-        divEl.append(pEl, alternativesEl)
-        currentQuestionsEl.append(divEl, hrEl)
+        divEl2.append(divEl, alternativesEl)
+        currentQuestionsEl.append(divEl2, hrEl)
     }
 
     const checkBoxes = document.querySelectorAll(".newQuestion .alternatives div input[type=checkbox]")
@@ -316,19 +333,18 @@ function modifyQuestions(topic, newValue) {
 
 function loadModifiedQuestions() {
     for (const topic in questions) {
-        console.log(topic)
         let modifiedQuestions = localStorage.getItem(`modifiedQuestions-${topic}`)
         if (modifiedQuestions) {
             modifiedQuestions = JSON.parse(modifiedQuestions)
             if (modifiedQuestions != null) {
-                questions[topic] = modifiedQuestions
+                currentTopicQuestions = modifiedQuestions
             }
         }
     }
+    answerQuestion(false, true);
     loadModal()
 }
 
-const API_KEY = "AIzaSyDWbxQOZgI3KTwGg4RYWQhrY74plr7kQHY";
 
 async function generateQuestions(prompt) {
     try {
@@ -365,7 +381,6 @@ async function generateQuestions(prompt) {
             currentTopicQuestions.push(question)
         }
         modifyQuestions(chosenTopic, currentTopicQuestions)
-        loadModifiedQuestions()
         return jsonParsed
 
     } catch (err) {
@@ -376,6 +391,8 @@ async function generateQuestions(prompt) {
 
 
 loadQuestions();
-updateStatElements();
-loadModal();
 loadModifiedQuestions();
+updateStatElements();
+// loadModal();
+
+console.log(currentTopicQuestions)
