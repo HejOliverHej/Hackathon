@@ -121,11 +121,11 @@ button:disabled {
     cursor: pointer;
 }
 
-#answersContainer .answer:hover {
+#answersContainer .answer:(.disabled):hover {
     border-color: #fff;
     background-color: #000;
 }
-#answersContainer .answer:active {
+#answersContainer .answer:(.disabled):active {
     transform: translateY(2px);
 }
 
@@ -134,6 +134,9 @@ button:disabled {
 }
 #answersContainer .answer.false {
     background-color: #f00;
+}
+#answersContainer .answer.disabled {
+    cursor: not-allowed;
 }
 
 #nextBtn {

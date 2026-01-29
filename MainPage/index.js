@@ -23,7 +23,7 @@ const questionTextEl = document.getElementById("questionText")
 const questionIndexEl = document.getElementById("questionIndex")
 const questionTotalEl = document.getElementById("questionTotal")
 
-// localStorage.clear()
+localStorage.clear()
 
 let xpValue = localStorage.getItem("xp") || 0
 let levelValue = localStorage.getItem("level") || 1
@@ -51,7 +51,7 @@ function levelUp(newXpValue) {
 }
 function addXp(amount) {
     let newXpValue = xpValue + amount;
-    if (newXpValue > levels[levelValue]) {
+    if (newXpValue >= levels[levelValue]) {
         levelUp(newXpValue)
     } else {
         localStorage.setItem("xp", newXpValue)
@@ -100,41 +100,47 @@ function answerQuestion(rightAnswer = false, firstQuestion = false) {
 
     function onClickNextBtn(rightAnswer) {
         nextBtnEl.disabled = true;
-        console.log(rightAnswer);
-        if(rightAnswer){
-            answerQuestion(rightAnswer)
-        }
+        answerQuestion(rightAnswer)
     }
 
+    const divs = []
     for (let index = 0; index < topicQuestion.questions.length; index++) {
         const question = topicQuestion.questions[index];
         let divEl = document.createElement("div")
         divEl.classList.add("answer")
         divEl.textContent = question
 
-        divEl.addEventListener("click", function(event) {
+        function handleAnswerBtn() {
             const rightAnswer = topicQuestion.rightAnswer == index;
             if (rightAnswer == true) {
                 console.log("Correct answer")
                 streakValue = streakValue + 1;
                 divEl.classList.add("correct")
 
-                addXp(10.0);
-                nextBtnEl.disabled = false;
-                
-                function handleNextBtnClick() {
-                    onClickNextBtn(rightAnswer)
-                    nextBtnEl.removeEventListener("click", handleNextBtnClick)
-                }
-                nextBtnEl.addEventListener("click", handleNextBtnClick)            
+                addXp(10.0);         
             } else {
                 console.log("Wrong answer")
                 streakValue = 0;
                 divEl.classList.add("false")
             }
 
-          
-        })
+            for (let index2 = 0; index2 < divs.length; index2++) {
+                const div = divs[index2];
+                div.classList.add("disabled")
+                div.style.pointerEvents = "none"
+            }
+
+            nextBtnEl.disabled = false;
+            
+            function handleNextBtnClick() {
+                onClickNextBtn(rightAnswer)
+                nextBtnEl.removeEventListener("click", handleNextBtnClick)
+            }
+            nextBtnEl.addEventListener("click", handleNextBtnClick)   
+        }
+
+        divEl.addEventListener("click", handleAnswerBtn)
+        divs.push(divEl)
         answersContainerEl.append(divEl)
     }
 }
@@ -229,9 +235,46 @@ function loadModal() {
 
     const newQuestionInput = document.getElementById("new-question-input")
     const textInputs = document.querySelectorAll(".newQuestion .alternatives div input[type=text]")
-    console.log(textInputs)
+    const checkBoxes = document.querySelectorAll(".newQuestion .alternatives div input[type=checkbox]")
+    const createQuestionBtn = document.getElementById("createQuestionBtn")
+    let selectedBox = 0;
+    checkBoxes[0].checked = true
+    for (let index = 0; index < checkBoxes.length; index++) {
+        const checkBox = checkBoxes[index];
+        checkBox.addEventListener("change", function() {
+            if (selectedBox === index) {
+                checkBox.checked = true;
+                return;
+            }
+
+            selectedBox = index;
+
+            for (let i = 0; i < checkBoxes.length; i++) {
+                const el = checkBoxes[i];
+                el.checked = i === selectedBox;
+            }
+        })
+    }
+
+    createQuestionBtn.addEventListener("click", function(event) {
+        const label = newQuestionInput.value;
+        const questions = [];
+        for (let index = 0; index < textInputs.length; index++) {
+            const textInput = textInputs[index];
+            questions.push(textInput.value)
+        }
+        const rightAnswer = selectedBox;
+        const question = {
+            label: label,
+            questions: questions,
+            rightAnswer: rightAnswer
+        }
+        currentTopicQuestions.push(question)
+        modifyQuestions(chosenTopic, currentTopicQuestions)
+    })
 }
 
 loadQuestions();
 updateStatElements();
 loadModal();
+loadModifiedQuestions();

@@ -110,7 +110,7 @@ let questions = {
 
 function modifyQuestions(topic, newValue) {
     localStorage.setItem(`modifiedQuestions-${topic}`, JSON.stringify(newValue))
-    console.log(topic, newValue)
+    loadModifiedQuestions()
 }
 
 function loadModifiedQuestions() {
@@ -123,6 +123,5 @@ function loadModifiedQuestions() {
             }
         }
     }
+    loadModal()
 }
-
-loadModifiedQuestions();
