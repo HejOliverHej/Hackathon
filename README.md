@@ -15,7 +15,7 @@ Det ska även ingå en tekniskt beskrivning, där ni beskriver en eller flera te
 
 ### Externt producerade komponenter
 
-Här presenterar ni saker som ni har laddat ner och använt för att bygga ert arbete. Beskriv också i vilken utsträckning de behövs för projektet.
+Här presenterar ni saker som ni har laddat ner och använt för att bygga ert arbete. Beskriv också i vilken utsträckning de behövs för projekte
 
 ### Install
 
