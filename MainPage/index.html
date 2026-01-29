@@ -16,7 +16,7 @@
             <button id="changeTopicBtn">Ändra fokus</button>
         </div>
 
-        <button>Hantera Övningar</button>
+        <button id="openQuestionsBtn">Hantera Övningar</button>
 
         <hr>
         
@@ -102,25 +102,39 @@
         <div class="newQuestion">
             <h3>Skapa Ny Fråga</h3>
             <div>
-                <label for="new-question-input">Fråga</label>
+                <label for="new-question-input">Fråga: </label>
                 <input type="text" name="new-question-input" id="new-question-input" placeholder="Vad är 1+1?">
             </div>
 
             <h4>Svars Alternativ:</h4>
             <div class="alternatives">
                 <div>
-                    <label for="alternative-1-1-input">1: </label>
-                    <input type="text" name="alternative-1-1-input" id="alternative-1-1-input" value="11">
+                    <label for="alternative-1-input">1: </label>
+                    <input type="text" name="alternative-1-input" id="alternative-1-input" placeholder="11">
                     
-                    <label for="alternative-1-1-checkbox">Rätt Svar: </label>
-                    <input type="checkbox" name="alternative-1-1-checkbox" id="alternative-1-1-checkbox" value="true">
+                    <label for="alternative-1-checkbox">Rätt Svar: </label>
+                    <input type="checkbox" name="alternative-1-checkbox" id="alternative-1-checkbox" value="true">
                 </div>
                 <div>
-                    <label for="alternative-1-2-input">2: </label>
-                    <input type="text" name="alternative-1-2-input" id="alternative-1-2-input" value="10">
+                    <label for="alternative-2-input">2: </label>
+                    <input type="text" name="alternative-2-input" id="alternative-2-input" placeholder="10">
                     
-                    <label for="alternative-1-2-checkbox">Rätt Svar: </label>
-                    <input type="checkbox" name="alternative-1-2-checkbox" id="alternative-1-2-checkbox" value="false">
+                    <label for="alternative-2-checkbox">Rätt Svar: </label>
+                    <input type="checkbox" name="alternative-2-checkbox" id="alternative-2-checkbox" value="false">
+                </div>
+                <div>
+                    <label for="alternative-3-input">3: </label>
+                    <input type="text" name="alternative-3-input" id="alternative-3-input" placeholder="25">
+                    
+                    <label for="alternative-3-checkbox">Rätt Svar: </label>
+                    <input type="checkbox" name="alternative-3-checkbox" id="alternative-3-checkbox" value="false">
+                </div>
+                <div>
+                    <label for="alternative-4-input">4: </label>
+                    <input type="text" name="alternative-4-input" id="alternative-4-input" placeholder="9">
+                    
+                    <label for="alternative-4-checkbox">Rätt Svar: </label>
+                    <input type="checkbox" name="alternative-4-checkbox" id="alternative-4-checkbox" value="false">
                 </div>
             </div>
             <button>Skapa Fråga</button>

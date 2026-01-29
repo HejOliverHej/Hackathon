@@ -141,7 +141,17 @@ function answerQuestion(rightAnswer = false, firstQuestion = false) {
 
 const totalQuestionsEl = document.getElementById("totalQuestions")
 const currentQuestionsEl = document.getElementById("currentQuestions")
+const modalQuestionsEl = document.querySelector(".modalQuestions")
+const closeEl = document.querySelector(".modalQuestions .top .close")
+const openQuestionsBtnEl = document.querySelector("#openQuestionsBtn")
 function loadModal() {
+    openQuestionsBtnEl.addEventListener("click", function(event) {
+        modalQuestionsEl.classList.add("visible")
+    })
+    closeEl.addEventListener("click", function(event) {
+        modalQuestionsEl.classList.remove("visible")
+    })
+
     totalQuestionsEl.textContent = currentTopicQuestions.length;
 
     while (currentQuestionsEl.firstChild) {
@@ -216,6 +226,10 @@ function loadModal() {
         divEl.append(pEl, alternativesEl)
         currentQuestionsEl.append(divEl, hrEl)
     }
+
+    const newQuestionInput = document.getElementById("new-question-input")
+    const textInputs = document.querySelectorAll(".newQuestion .alternatives div input[type=text]")
+    console.log(textInputs)
 }
 
 loadQuestions();

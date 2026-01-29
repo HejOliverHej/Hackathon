@@ -142,8 +142,7 @@ button:disabled {
 }
 
 .modalQuestions {
-    display: fixed;
-    position: absolute;
+    position: fixed;
     width: 50vw;
     height: 75vh;
     transform: translate(-50%, -50%);
@@ -153,13 +152,17 @@ button:disabled {
     border-radius: 5px;
     color: #fff;
 
-    display: flex;
+    display: none;
     flex-direction: column;
     gap: 10px;
 
     padding: 15px;
     overflow: scroll;
 }
+.modalQuestions.visible {
+    display: flex;
+}
+
 
 .modalQuestions .top {
     display: flex;
