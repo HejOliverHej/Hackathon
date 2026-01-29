@@ -4,8 +4,8 @@
 [Oliver Bäfverholm](https://github.com/HejOliverHej), [Leo Roos](https://github.com/leo-roos), [William zander](https://github.com/william-zander), [Linus Lindvall Schön](https://github.com/SpiderLinus)
 
 ### Tävlar i kategori: 
-Bästa innovativa idé
-Bästa AI-tillämpning
+Bästa innovativa idé, 
+Bästa AI-tillämpning, 
 Bästa användarupplevelse
     
 ## Projekt & Teknisk- beskrivning
