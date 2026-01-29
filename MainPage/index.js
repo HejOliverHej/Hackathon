@@ -67,20 +67,6 @@ function getQuestions(topic) {
 
     return topicQuestions;
 }
-function loadQuestions() {
-    currentTopicQuestions = getQuestions(chosenTopic);
-    if (currentTopicQuestions == null) {
-        return;
-    }
-
-    if (lastQuestionValue && ((lastQuestionValue + 1) < currentTopicQuestions.length)) {
-        currentTopicQuestion = lastQuestionValue
-    } else {
-        currentTopicQuestion = -1;
-    }
-
-    answerQuestion(false, true);
-}
 
 function answerQuestion(rightAnswer = false, firstQuestion = false) {
     currentTopicQuestion = currentTopicQuestion + 1;
@@ -286,7 +272,6 @@ function loadModal() {
         deleteBtnEl.addEventListener("click", function (event) {
             currentTopicQuestions.splice(index, 1)
 
-            currentTopicQuestion = currentTopicQuestion - 1
             loadModal()
             modifyQuestions(chosenTopic, currentTopicQuestions)
         })
@@ -332,6 +317,17 @@ function modifyQuestions(topic, newValue) {
 }
 
 function loadModifiedQuestions() {
+    currentTopicQuestions = getQuestions(chosenTopic);
+    if (currentTopicQuestions == null) {
+        currentTopicQuestions = [];
+    }
+
+    if (lastQuestionValue && ((lastQuestionValue + 1) < currentTopicQuestions.length)) {
+        currentTopicQuestion = lastQuestionValue
+    } else {
+        currentTopicQuestion = -1;
+    }
+
     for (const topic in questions) {
         let modifiedQuestions = localStorage.getItem(`modifiedQuestions-${topic}`)
         if (modifiedQuestions) {
@@ -390,7 +386,6 @@ async function generateQuestions(prompt) {
 // generateQuestions("plugga SO, första världskriget");
 
 
-loadQuestions();
 loadModifiedQuestions();
 updateStatElements();
 // loadModal();
