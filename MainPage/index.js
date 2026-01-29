@@ -25,16 +25,15 @@ const questionTotalEl = document.getElementById("questionTotal")
 
 // localStorage.clear()
 
-let xpValue = localStorage.getItem("xp") || 0
-let levelValue = localStorage.getItem("level") || 1
-let streakValue = localStorage.getItem("streak") || 0
-let lastQuestionValue = localStorage.getItem("lastQuestion") || 0 // last question answered
+let xpValue = parseInt(localStorage.getItem("xp")) || 0
+let levelValue = parseInt(localStorage.getItem("level")) || 1
+let streakValue = parseInt(localStorage.getItem("streak")) || 0
+let lastQuestionValue = parseInt(localStorage.getItem("lastQuestion")) || 0 // last question answered
 levels = levels // loaded from levels.js
 questions = questions // loaded from questions.js
 let currentTopicQuestions;
 let currentTopicQuestion;
 const answersContainerEl = document.getElementById("answersContainer")
-
 
 function updateStatElements() {
     xpEl.textContent = xpValue;
@@ -69,11 +68,15 @@ function getQuestions(topic) {
 }
 function loadQuestions() {
     currentTopicQuestions = getQuestions(chosenTopic);
-    console.log(chosenTopic)
     if (currentTopicQuestions == null) {
         return;
     }
-    currentTopicQuestion = -1;
+
+    if (lastQuestionValue && ((lastQuestionValue + 1) < currentTopicQuestions.length)) {
+        currentTopicQuestion = lastQuestionValue
+    } else {
+        currentTopicQuestion = -1;
+    }
 
     answerQuestion(false, true);
 }
@@ -81,7 +84,8 @@ function loadQuestions() {
 function answerQuestion(rightAnswer = false, firstQuestion = false) {
     currentTopicQuestion = currentTopicQuestion + 1;
     if (currentTopicQuestions[currentTopicQuestion] == null) {
-        console.log("null question")
+        currentTopicQuestion = -1;
+        answerQuestion(false, true)
         return;
     }
     localStorage.setItem("streak", streakValue)
@@ -96,7 +100,6 @@ function answerQuestion(rightAnswer = false, firstQuestion = false) {
     questionIndexEl.textContent = currentTopicQuestion + 1;
     questionTotalEl.textContent = currentTopicQuestions.length
     questionTextEl.textContent = topicQuestion.label;
-
 
     function onClickNextBtn(rightAnswer) {
         nextBtnEl.disabled = true;
@@ -124,6 +127,9 @@ function answerQuestion(rightAnswer = false, firstQuestion = false) {
                 divEl.classList.add("false")
             }
 
+            localStorage.setItem("lastQuestion", currentTopicQuestion)
+            lastQuestionValue = currentTopicQuestion
+
             for (let index2 = 0; index2 < divs.length; index2++) {
                 const div = divs[index2];
                 div.classList.add("disabled")
@@ -149,15 +155,63 @@ const totalQuestionsEl = document.getElementById("totalQuestions")
 const currentQuestionsEl = document.getElementById("currentQuestions")
 const modalQuestionsEl = document.querySelector(".modalQuestions")
 const closeEl = document.querySelector(".modalQuestions .top .close")
-const openQuestionsBtnEl = document.querySelector("#openQuestionsBtn")
-function loadModal() {
-    openQuestionsBtnEl.addEventListener("click", function(event) {
-        modalQuestionsEl.classList.add("visible")
-    })
-    closeEl.addEventListener("click", function(event) {
-        modalQuestionsEl.classList.remove("visible")
-    })
+const openQuestionsBtnEl = document.getElementById("openQuestionsBtn")
+const aiPromptSendBtnEl = document.getElementById("ai-prompt-send")
+const aiPromptInputEl = document.getElementById("ai-prompt-input")
+const aiPromptLoaderEl = document.getElementById("ai-prompt-loader")
 
+openQuestionsBtnEl.addEventListener("click", function(event) {
+    modalQuestionsEl.classList.add("visible")
+})
+closeEl.addEventListener("click", function(event) {
+    modalQuestionsEl.classList.remove("visible")
+})
+
+aiPromptSendBtnEl.addEventListener("click", async function(event) {
+    if (aiPromptInputEl.value.length < 5) {
+        return
+    }
+    aiPromptInputEl.disabled = true
+    aiPromptSendBtnEl.disabled = true
+    aiPromptSendBtnEl.pointerEvents = "none"
+
+    console.log("add")
+    aiPromptLoaderEl.classList.add("visible")
+
+    const response = await generateQuestions(aiPromptInputEl.value)
+    
+    aiPromptInputEl.disabled = false
+    aiPromptSendBtnEl.disabled = false
+    aiPromptSendBtnEl.pointerEvents = "all"
+
+    aiPromptLoaderEl.classList.remove("visible")
+
+    console.log(response)
+})
+
+
+const newQuestionInput = document.getElementById("new-question-input")
+const textInputs = document.querySelectorAll(".newQuestion .alternatives div input[type=text]")
+const createQuestionBtn = document.getElementById("createQuestionBtn")
+
+createQuestionBtn.addEventListener("click", function(event) {
+    const label = newQuestionInput.value;
+    const questions = [];
+    for (let index = 0; index < textInputs.length; index++) {
+        const textInput = textInputs[index];
+        questions.push(textInput.value)
+    }
+    const rightAnswer = selectedBox;
+    const question = {
+        label: label,
+        questions: questions,
+        rightAnswer: rightAnswer
+    }
+    currentTopicQuestions.push(question)
+    modifyQuestions(chosenTopic, currentTopicQuestions)
+})
+
+function loadModal() {
     totalQuestionsEl.textContent = currentTopicQuestions.length;
 
     while (currentQuestionsEl.firstChild) {
@@ -233,10 +287,8 @@ function loadModal() {
         currentQuestionsEl.append(divEl, hrEl)
     }
 
-    const newQuestionInput = document.getElementById("new-question-input")
-    const textInputs = document.querySelectorAll(".newQuestion .alternatives div input[type=text]")
     const checkBoxes = document.querySelectorAll(".newQuestion .alternatives div input[type=checkbox]")
-    const createQuestionBtn = document.getElementById("createQuestionBtn")
+    
     let selectedBox = 0;
     checkBoxes[0].checked = true
     for (let index = 0; index < checkBoxes.length; index++) {
@@ -255,24 +307,73 @@ function loadModal() {
             }
         })
     }
-
-    createQuestionBtn.addEventListener("click", function(event) {
-        const label = newQuestionInput.value;
-        const questions = [];
-        for (let index = 0; index < textInputs.length; index++) {
-            const textInput = textInputs[index];
-            questions.push(textInput.value)
-        }
-        const rightAnswer = selectedBox;
-        const question = {
-            label: label,
-            questions: questions,
-            rightAnswer: rightAnswer
-        }
-        currentTopicQuestions.push(question)
-        modifyQuestions(chosenTopic, currentTopicQuestions)
-    })
 }
+
+function modifyQuestions(topic, newValue) {
+    localStorage.setItem(`modifiedQuestions-${topic}`, JSON.stringify(newValue))
+    loadModifiedQuestions()
+}
+
+function loadModifiedQuestions() {
+    for (const topic in questions) {
+        console.log(topic)
+        let modifiedQuestions = localStorage.getItem(`modifiedQuestions-${topic}`)
+        if (modifiedQuestions) {
+            modifiedQuestions = JSON.parse(modifiedQuestions)
+            if (modifiedQuestions != null) {
+                questions[topic] = modifiedQuestions
+            }
+        }
+    }
+    loadModal()
+}
+
+const API_KEY = "AIzaSyDWbxQOZgI3KTwGg4RYWQhrY74plr7kQHY";
+
+async function generateQuestions(prompt) {
+    try {
+        const res = await fetch(
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-goog-api-key": API_KEY,
+                },
+                body: JSON.stringify({
+                contents: [
+                    {
+                        parts: [
+                            {
+                                text: `kan du ge mig instruderingsfrågor ämnet som kommer nedan och ge mig det i en json array utifrån denna template och ge mig ingen text, bara frågorna, ge mig inte med \`\`\` formattering tack, sätt också. [ { "label": "Vilket ord betyder samma som “happy”?", "questions": ["sad", "angry", "glad", "tired"], "rightAnswer": 2 } ] ämne: "${prompt}"`,
+                            },
+                        ],
+                    },
+                ],
+            }),
+        });
+
+        const data = await res.json();
+        console.log(data);
+        let jsonText = data.candidates[0].content.parts[0].text; // vi ber att det fungerar, fungerar det inte så vet jag ej
+        console.log(jsonText)
+        const jsonParsed = JSON.parse(jsonText)
+        console.log(jsonParsed)
+        for (let index = 0; index < jsonParsed.length; index++) {
+            const question = jsonParsed[index];
+            console.log(question)   
+            currentTopicQuestions.push(question)
+        }
+        modifyQuestions(chosenTopic, currentTopicQuestions)
+        loadModifiedQuestions()
+        return jsonParsed
+
+    } catch (err) {
+        console.error(err);
+    }
+}
+// generateQuestions("plugga SO, första världskriget");
+
 
 loadQuestions();
 updateStatElements();

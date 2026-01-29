@@ -107,21 +107,3 @@ let questions = {
         }
     ]
 }
-
-function modifyQuestions(topic, newValue) {
-    localStorage.setItem(`modifiedQuestions-${topic}`, JSON.stringify(newValue))
-    loadModifiedQuestions()
-}
-
-function loadModifiedQuestions() {
-    for ((topic) in questions) {
-        let modifiedQuestions = localStorage.getItem(`modifiedQuestions-${topic}`)
-        if (modifiedQuestions) {
-            modifiedQuestions = JSON.parse(modifiedQuestions)
-            if (modifiedQuestions != null) {
-                questions[topic] = modifiedQuestions
-            }
-        }
-    }
-    loadModal()
-}
