@@ -20,9 +20,9 @@ T.ex. om ni har fokuserat på just UI/UX så är det mer relevant än om ni
 
 Det ska även ingå en tekniskt beskrivning, där ni beskriver en eller flera tekniska lösningar i projektet. Ni skall beskriva funktionen av den tekniska lösningen och hur den används i projektet. Ju tydligare beskrivning desto enklare att bedöma den tekniska lösningen. Beskrivningen skall vara förståelig även för personer som inte kan programmera.
 
-Om vi börjar med bästa användarupplevelse även kallat UI har vi gjort 4 fina bilden mellan de olika ämnena man kan välja mellan. Sedan har vi gjort en indikator på knapparna där de ändra till röd eller grön beroende på om man fick rätt eller fel på frågan. 
+Om vi börjar med bästa användarupplevelse även kallat UI där vi har gjort 4 fina bilden mellan de olika ämnena man kan välja mellan. Sedan har vi gjort en indikator på knapparna där de ändra till röd eller grön beroende på om man fick rätt eller fel på frågan. 
 
-Efter det den bästa innovativa idé där den är anpassad till många och inte en specifikt behov som hjälper än störe mängd elever och till exeplem inte bara elever på LBS. 
+Efter det den bästa innovativa idé där den är anpassad till många och inte en specifikt behov som hjälper än störe mängd elever och till exempel inte bara elever på LBS. 
 
 Vi tycker även att vi har den bästa helhetslösning eftersom att
 
