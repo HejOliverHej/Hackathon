@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<body>
+
+
+
+
+
+<audio id="sound" src="voicy_minecraft-chicken-death-made-with-Voicemod.mp3"></audio>
+
+<button onclick="playShort()">Spela 1 sekunder</button>
+
+<script>
+function playShort() {
+    const audio = document.getElementById('sound');
+    audio.currentTime = 0;      
+    audio.play();
+
+    setTimeout(() => {
+        audio.pause();
+        audio.currentTime = 0;  
+    }, 1000); 
+}
+</script>
+
+
+
+    
+
+    <button onclick="document.getElementById('music').play()">Starta musik</button>
+
+<audio id="music" src="umami-chosic.com_.mp3" loop></audio>
+
+
+    
+</body>
+</html>
