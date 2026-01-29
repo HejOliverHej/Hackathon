@@ -2,10 +2,10 @@
 
 # Namn på projektet
 
-Namn på alla deltagare
+Oliver Bäfverholm, Leo Roos, William zander, Linus Lindvall Schön
 
 ### Tävlar i kategori: 
-
+    
 ## Projekt & Teknisk- beskrivning
 
 Här skriver ni vad ni har gjort, försök att formulera det så att det blir relevant för kategorin ni tänker att ni tävlar i.
