@@ -24,7 +24,6 @@ Om vi börjar med bästa användarupplevelse även kallat UI där vi har gjort 4
 
 Efter det den bästa innovativa idé där den är anpassad till många och inte en specifikt behov som hjälper än störe mängd elever och till exempel inte bara elever på LBS. 
 
-Vi tycker även att vi har den bästa helhetslösning eftersom att
 
 
 
