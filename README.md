@@ -17,6 +17,6 @@ Efter det den bästa innovativa idé där den är anpassad till många och inte 
 Vi har laddat ner bootstrap som inte är så viktigt förutom att fixa att det ser bra ut. Vi har också lagt in fyra bilder som också är bara för att göra det finare samt att man kan se lätt vad allt handlar om utan att läsa om man vill.
 
 ### Install
-Steg 1: Ladda ner filerna (Frontend branchen)
-Steg 2 (optional): Gå in på https://aistudio.google.com/projects samt https://aistudio.google.com/api-keys för att kunna få tillgång till AI funktionen att generera frågor, sätt din API_KEY i MainPage/apiKey.js
-Steg 3: Öppna MainPage/index.html
+* Steg 1: Ladda ner filerna (Frontend branchen)
+* Steg 2 (optional): Gå in på https://aistudio.google.com/projects samt https://aistudio.google.com/api-keys för att kunna få tillgång till AI funktionen att generera frågor, sätt din API_KEY i MainPage/apiKey.js
+* Steg 3: Öppna MainPage/index.html
