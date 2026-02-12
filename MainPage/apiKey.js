@@ -1,0 +1,1 @@
+let API_KEY = ""; // get frm google geminis API
